@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO.Pipes;
 using System.Net.Sockets;
 using System.Text;
+using Server;
 
 namespace Server
 {
@@ -30,7 +31,7 @@ namespace Server
         {
             var tcpClient = listener.EndAcceptTcpClient(ar);
             Console.WriteLine($"Client connected from {tcpClient.Client.RemoteEndPoint}");
-            clients.Add(new Client(this, tcpClient));
+            clients.Add(new Client(tcpClient));
             listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
         }
 

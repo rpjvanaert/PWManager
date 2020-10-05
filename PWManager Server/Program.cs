@@ -1,12 +1,11 @@
 ﻿using Newtonsoft.Json;
-using Server;
 using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using General;
 
-namespace PWManager_Server
+namespace Server
 {
 
     class Program
@@ -20,7 +19,7 @@ namespace PWManager_Server
         }
     }
 
-    class Server
+    class Client
     {
         private TcpClient client;
         private NetworkStream stream;
@@ -30,7 +29,7 @@ namespace PWManager_Server
         private SaveData saveData;
         private DateTime sessionStart;
 
-        public Server(TcpClient tcpClient)
+        public Client(TcpClient tcpClient)
         {
             this.sessionStart = DateTime.Now;
             this.client = tcpClient;
@@ -56,7 +55,7 @@ namespace PWManager_Server
                 Array.Copy(totalBuffer, 0, messageBytes, 0, expectedMessageLength);
                 HandleData(messageBytes);
 
-                Array.Copy(totalBuffer, expectedMessageLength, totalBuffer, 0, (totalBufferReceived - expectedMessageLength)); //maybe unsafe idk 
+                Array.Copy(totalBuffer, expectedMessageLength, totalBuffer, 0, (totalBufferReceived - expectedMessageLength));
 
                 totalBufferReceived -= expectedMessageLength;
                 expectedMessageLength = BitConverter.ToInt32(totalBuffer, 0);
@@ -87,30 +86,28 @@ namespace PWManager_Server
             {
                 switch (id)
                 {
+
                     case DataParser.LOGIN:
-                        string username; string password;
-                        if (DataParser.GetUsernamePassword(payloadbytes, out username, out password))
+
+                        if (VerifyMessage(payloadbytes))
                         {
-                            if (verifyLogin(username, password))
-                            {
-                                byte[] response = DataParser.GetLoginResponse("OK");
-                                stream.BeginWrite(response, 0, response.Length, new AsyncCallback(OnWrite), null);
-                            }
-                            else
-                            {
-                                byte[] response = DataParser.GetLoginResponse("login error");
-                                stream.BeginWrite(response, 0, response.Length, new AsyncCallback(OnWrite), null);
-                            }
-                        } 
+                            SendMessage(DataParser.GetLoginResponse("OK"));
+                        }
                         else
                         {
-                            byte[] response = DataParser.GetLoginResponse("json error");
-                            stream.BeginWrite(response, 0, response.Length, new AsyncCallback(OnWrite), null);
+                            SendMessage(DataParser.GetLoginResponse("Error"));
                         }
                         break;
 
                     case DataParser.DATA:
-                        
+                        if (VerifyMessage(payloadbytes))
+                        {
+                            
+                        }
+                        else
+                        {
+                            
+                        }
                         break;
 
                     case DataParser.ADD:
@@ -130,7 +127,25 @@ namespace PWManager_Server
 
         }
 
-        private bool verifyLogin(string username, string password)
+        private void SendMessage(byte[] message)
+        {
+            stream.BeginWrite(message, 0, message.Length, new AsyncCallback(OnWrite), null);
+        }
+
+        private bool VerifyMessage(byte[] PayloadMessage)
+        {
+            string username; string password;
+            if (DataParser.GetUsernamePassword(PayloadMessage, out username, out password))
+            {
+                if (VerifyLogin(username, password))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool VerifyLogin(string username, string password)
         {
             return username == password;
         }

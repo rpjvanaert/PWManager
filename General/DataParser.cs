@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 
 namespace General
@@ -85,6 +86,22 @@ namespace General
         public static byte[] GetLoginResponse(string mStatus)
         {
             return GetJsonMessage(LOGIN_RESPONSE, new { status = mStatus });
+        }
+
+        public static byte[] GetDataResponse(string mStatus)
+        {
+            return GetJsonMessage(DATA_RESPONSE, new { status = mStatus });
+        }
+
+        public static byte[] GetDataResponse(string mStatus, List<LoginCredentials> logins)
+        {
+            dynamic data = new
+            {
+                status = mStatus,
+                data = JsonConvert.SerializeObject(logins)
+            };
+
+            return data;
         }
     }
 }

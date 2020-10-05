@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "PWManager": {
+      "commandName": "Project"
+    },
+    "PWManager test": {
+      "commandName": "Snapshot Debugger"
+    }
+  }
+}

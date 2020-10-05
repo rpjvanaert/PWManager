@@ -5,9 +5,19 @@ using System.Text;
 
 namespace General
 {
+
+    public class Program
+    {
+        public static void Main(string[] args) { }
+    }
+
+    
     [Serializable]
     public struct LoginCredentials : ISerializable
     {
+
+        
+
         private string place;
         private string username;
         private string password;
@@ -46,7 +56,6 @@ namespace General
             info.AddValue("place", this.place, typeof(string));
             info.AddValue("username", this.username, typeof(string));
             info.AddValue("password", this.password, typeof(string));
-            throw new NotImplementedException();
         }
     }
 }

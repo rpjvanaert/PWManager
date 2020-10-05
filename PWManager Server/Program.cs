@@ -4,6 +4,7 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using General;
 
 namespace PWManager_Server
 {
@@ -28,7 +29,7 @@ namespace PWManager_Server
         private int totalBufferReceived = 0;
         private SaveData saveData;
         private DateTime sessionStart;
-        
+
         public Server(TcpClient tcpClient)
         {
             this.sessionStart = DateTime.Now;
@@ -80,23 +81,50 @@ namespace PWManager_Server
 
             Array.Copy(message, 5, payloadbytes, 0, payloadbytes.Length);
 
-            string identifier;
-            bool isJson = DataParser.getJsonIdentifier(message, out identifier);
+            string id;
+            bool isJson = DataParser.getJsonIdentifier(message, out id);
             if (isJson)
             {
-                switch (identifier)
+                switch (id)
                 {
-                    
+                    case DataParser.LOGIN:
+                        string username; string password;
+                        if (DataParser.GetUsernamePassword(payloadbytes, out username, out password))
+                        {
+                            if (verifyLogin(username, password))
+                            {
+                                byte[] response = DataParser.GetLoginResponse("OK");
+                                stream.BeginWrite(response, 0, response.Length, new AsyncCallback(OnWrite), null);
+                            }
+                            else
+                            {
+                                byte[] response = DataParser.GetLoginResponse("login error");
+                                stream.BeginWrite(response, 0, response.Length, new AsyncCallback(OnWrite), null);
+                            }
+                        } 
+                        else
+                        {
+                            byte[] response = DataParser.GetLoginResponse("json error");
+                            stream.BeginWrite(response, 0, response.Length, new AsyncCallback(OnWrite), null);
+                        }
+                        break;
+
+                    case DataParser.DATA:
+                        
+                        break;
+
+                    case DataParser.ADD:
+
+                        break;
+
+                    default:
+                        Console.WriteLine($"Received Json with id {id}:\n{Encoding.ASCII.GetString(payloadbytes)}");
+                        break;
                 }
                 Array.Copy(message, 5, payloadbytes, 0, message.Length - 5);
                 dynamic json = JsonConvert.DeserializeObject(Encoding.ASCII.GetString(payloadbytes));
                 saveData.WriteDataJSON(Encoding.ASCII.GetString(payloadbytes));
 
-            }
-            else if (DataParser.isRawData(message))
-            {
-                Console.WriteLine(BitConverter.ToString(message));
-                saveData.WriteDataRAW(ByteArrayToString(message));
             }
 
 

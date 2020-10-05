@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PWManager", "PWManager.csproj", "{EBACB2AC-BA74-46CB-B95C-BC3E68EB6C81}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PWManager Server", "..\PWManager Server\PWManager Server.csproj", "{6E3F9C71-CFD3-4AB0-9310-2606693BA6DD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{625B786A-B85C-4EDB-9CC9-E6C9FF126E1B} = {625B786A-B85C-4EDB-9CC9-E6C9FF126E1B}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "General", "..\General\General.csproj", "{625B786A-B85C-4EDB-9CC9-E6C9FF126E1B}"
 EndProject

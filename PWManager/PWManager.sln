@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30413.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PWManager", "PWManager.csproj", "{EBACB2AC-BA74-46CB-B95C-BC3E68EB6C81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PWManager Server", "..\PWManager Server\PWManager Server.csproj", "{6E3F9C71-CFD3-4AB0-9310-2606693BA6DD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EBACB2AC-BA74-46CB-B95C-BC3E68EB6C81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBACB2AC-BA74-46CB-B95C-BC3E68EB6C81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBACB2AC-BA74-46CB-B95C-BC3E68EB6C81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBACB2AC-BA74-46CB-B95C-BC3E68EB6C81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E3F9C71-CFD3-4AB0-9310-2606693BA6DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E3F9C71-CFD3-4AB0-9310-2606693BA6DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E3F9C71-CFD3-4AB0-9310-2606693BA6DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E3F9C71-CFD3-4AB0-9310-2606693BA6DD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D4A5C711-F10F-4CBD-9236-6FEB4E7D05D5}
+	EndGlobalSection
+EndGlobal

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 
@@ -43,11 +44,11 @@ namespace Server
             }
         }
 
-        public void WriteDataJSON(string data)
+        public void WriteDataJSON()
         {
             using (StreamWriter sw = File.AppendText(this.path + jsonFilename))
             {
-                sw.WriteLine(data);
+                sw.WriteLine(json);
             }
         }
 
@@ -122,6 +123,34 @@ namespace Server
                 data = userArray
             };
             json = newJson;
+        }
+
+        public bool Remove(string mUsername, string mPassword, LoginCredentials deleting)
+        {
+            JArray userArray = JArray.Parse(JsonConvert.SerializeObject(json.data));
+
+            foreach (var user in userArray.Children())
+            {
+
+                var userProp = user.Children<JProperty>();
+                if (userProp.FirstOrDefault(x => x.Name == "username").Value.ToString() == mUsername && userProp.FirstOrDefault(x => x.Name == "password").Value.ToString() == mPassword && !foundUser)
+                {
+                    JArray userData = (JArray)user.Children<JProperty>().FirstOrDefault(x => x.Name == "data").Value;
+
+                    foreach (var login in userData)
+                    {
+                        if (
+                            login.Children<JProperty>().FirstOrDefault(x => x.Name == "place").Value.ToString() == deleting.Place &&
+                            login.Children<JProperty>().FirstOrDefault(x => x.Name == "username").Value.ToString() == deleting.Username &&
+                            login.Children<JProperty>().FirstOrDefault(x => x.Name == "password").Value.ToString() == deleting.Password
+                            )
+                        {
+                            return userData.Remove(login);
+                        }
+                    }
+                }
+            }
+            return false;
         }
     }
 }

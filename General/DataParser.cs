@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace General
@@ -15,6 +17,8 @@ namespace General
         public const string DATA_RESPONSE = "DATA_RESPONSE";
         public const string ADD = "ADD";
         public const string ADD_RESPONSE = "ADD_RESPONSE";
+        public const string DELETE = "DELETE";
+        public const string DELETE_RESPONSE = "DELETE_RESPONSE";
 
         public static bool getJsonIdentifier(byte [] message, out string identifier)
         {
@@ -109,20 +113,28 @@ namespace General
             return GetJsonMessage(DATA_RESPONSE, data);
         }
 
-        public static bool GetData(byte[] payload, out List<LoginCredentials> logins)
+        public static byte[] GetDeleteResponse(string mStatus)
+        {
+            return GetJsonMessage(DELETE_RESPONSE, new { status = mStatus });
+        }
+
+        public static List<LoginCredentials> GetData(byte[] payload)
         {
             dynamic json = JsonConvert.DeserializeObject(Encoding.ASCII.GetString(payload));
 
-            try
+            JArray userArray = JArray.Parse(JsonConvert.SerializeObject(json.data.data));
+            List<LoginCredentials> logins = new List<LoginCredentials>();
+
+            foreach (var user in userArray.Children())
             {
-                logins = json.data.data;
-                return true;
+                JArray userData = (JArray)user.Children<JProperty>().FirstOrDefault(x => x.Name == "data").Value;
+                foreach (dynamic login in userData)
+                {
+                    logins.Add(new LoginCredentials((string)login.place, (string)login.username, (string)login.password));
+                }
             }
-            catch
-            {
-                logins = null;
-                return false;
-            }
+
+            return logins;
         }
 
         public static bool GetAddition(byte[] jsonbytes, out LoginCredentials login)
@@ -140,5 +152,7 @@ namespace General
                 return false;
             }
         }
+
+
     }
 }

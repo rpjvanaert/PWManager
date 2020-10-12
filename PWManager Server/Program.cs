@@ -105,8 +105,7 @@ namespace Server
                         {
                             string username; string password;
                             DataParser.GetUsernamePassword(payloadbytes, out username, out password);
-                            // TODO get logins from file
-                            List<LoginCredentials> logins = new List<LoginCredentials>();
+                            List<LoginCredentials> logins = saveData.GetLoginsUser(username, password);
                             SendMessage(DataParser.GetDataResponse("OK", logins));
                         }
                         else
@@ -121,12 +120,32 @@ namespace Server
                             LoginCredentials adding;
                             DataParser.GetAddition(payloadbytes, out adding);
                             SendMessage(DataParser.GetAddResponse("OK"));
-
-                            // TODO add adding logincredentials
+                            string username; string password;
+                            DataParser.GetUsernamePassword(payloadbytes, out username, out password);
+                            saveData.Add(username, password, adding);
+                            saveData.WriteDataJSON();
                         }
                         else
                         {
                             SendMessage(DataParser.GetAddResponse("Error"));
+                        }
+                        break;
+                    case DataParser.DELETE:
+                        if (VerifyMessage(payloadbytes))
+                        {
+                            LoginCredentials deleting;
+                            string username; string password;
+                            DataParser.GetUsernamePassword(payloadbytes, out username, out password);
+                            if (saveData.Remove(username, password, deleting))
+                            {
+                                saveData.WriteDataJSON();
+                                SendMessage(DataParser.GetDeleteResponse("OK"));
+                            } 
+                            else
+                            {
+                                SendMessage(DataParser.GetDeleteResponse("Error"));
+                            }
+                            
                         }
                         break;
 
@@ -134,9 +153,7 @@ namespace Server
                         Console.WriteLine($"Received Json with id {id}:\n{Encoding.ASCII.GetString(payloadbytes)}");
                         break;
                 }
-                Array.Copy(message, 5, payloadbytes, 0, message.Length - 5);
                 dynamic json = JsonConvert.DeserializeObject(Encoding.ASCII.GetString(payloadbytes));
-                saveData?.WriteDataJSON(Encoding.ASCII.GetString(payloadbytes));
 
             }
 

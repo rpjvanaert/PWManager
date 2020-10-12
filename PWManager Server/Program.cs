@@ -4,6 +4,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using General;
+using System.Collections.Generic;
+using System.IO;
 
 namespace Server
 {
@@ -27,14 +29,13 @@ namespace Server
         private byte[] totalBuffer = new byte[1024];
         private int totalBufferReceived = 0;
         private SaveData saveData;
-        private DateTime sessionStart;
 
         public Client(TcpClient tcpClient)
         {
-            this.sessionStart = DateTime.Now;
             this.client = tcpClient;
             this.stream = this.client.GetStream();
             this.stream.BeginRead(buffer, 0, buffer.Length, new AsyncCallback(OnRead), null);
+            this.saveData = new SaveData(Directory.GetCurrentDirectory() + "/data");
         }
 
         private void OnRead(IAsyncResult ar)
@@ -102,16 +103,31 @@ namespace Server
                     case DataParser.DATA:
                         if (VerifyMessage(payloadbytes))
                         {
-                            
+                            string username; string password;
+                            DataParser.GetUsernamePassword(payloadbytes, out username, out password);
+                            // TODO get logins from file
+                            List<LoginCredentials> logins = new List<LoginCredentials>();
+                            SendMessage(DataParser.GetDataResponse("OK", logins));
                         }
                         else
                         {
-                            
+                            SendMessage(DataParser.GetDataResponse("Error"));
                         }
                         break;
 
                     case DataParser.ADD:
+                        if (VerifyMessage(payloadbytes))
+                        {
+                            LoginCredentials adding;
+                            DataParser.GetAddition(payloadbytes, out adding);
+                            SendMessage(DataParser.GetAddResponse("OK"));
 
+                            // TODO add adding logincredentials
+                        }
+                        else
+                        {
+                            SendMessage(DataParser.GetAddResponse("Error"));
+                        }
                         break;
 
                     default:
@@ -120,7 +136,7 @@ namespace Server
                 }
                 Array.Copy(message, 5, payloadbytes, 0, message.Length - 5);
                 dynamic json = JsonConvert.DeserializeObject(Encoding.ASCII.GetString(payloadbytes));
-                saveData.WriteDataJSON(Encoding.ASCII.GetString(payloadbytes));
+                saveData?.WriteDataJSON(Encoding.ASCII.GetString(payloadbytes));
 
             }
 

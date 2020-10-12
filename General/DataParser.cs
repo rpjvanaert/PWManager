@@ -93,15 +93,52 @@ namespace General
             return GetJsonMessage(DATA_RESPONSE, new { status = mStatus });
         }
 
+        public static byte[] GetAddResponse(string mStatus)
+        {
+            return GetJsonMessage(ADD_RESPONSE, new { status = mStatus });
+        }
+
         public static byte[] GetDataResponse(string mStatus, List<LoginCredentials> logins)
         {
             dynamic data = new
             {
                 status = mStatus,
-                data = JsonConvert.SerializeObject(logins)
+                data = logins.ToArray()
             };
 
-            return data;
+            return GetJsonMessage(DATA_RESPONSE, data);
+        }
+
+        public static bool GetData(byte[] payload, out List<LoginCredentials> logins)
+        {
+            dynamic json = JsonConvert.DeserializeObject(Encoding.ASCII.GetString(payload));
+
+            try
+            {
+                logins = json.data.data;
+                return true;
+            }
+            catch
+            {
+                logins = null;
+                return false;
+            }
+        }
+
+        public static bool GetAddition(byte[] jsonbytes, out LoginCredentials login)
+        {
+            dynamic json = JsonConvert.DeserializeObject(Encoding.ASCII.GetString(jsonbytes));
+
+            try
+            {
+                login = new LoginCredentials(json.data.data.place, json.data.data.username, json.data.data.password);
+                return true;
+            }
+            catch
+            {
+                login = new LoginCredentials(null, null, null);
+                return false;
+            }
         }
     }
 }

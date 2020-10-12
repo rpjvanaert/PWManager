@@ -43,6 +43,11 @@ namespace General
             get { return this.password; }
         }
 
+        public override string ToString()
+        {
+            return place + " un: " + username + " pw: " + password;
+        }
+
         public LoginCredentials(SerializationInfo info, StreamingContext context)
         {
             this.place = (string)info.GetValue("place", typeof(string));

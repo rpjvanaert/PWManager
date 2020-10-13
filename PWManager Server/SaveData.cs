@@ -47,7 +47,7 @@ namespace Server
 
         public async Task WriteDataJSON()
         {
-            using (StreamWriter sw = File.AppendText(this.path + jsonFilename))
+            await using (StreamWriter sw = File.AppendText(this.path + jsonFilename))
             {
                 sw.WriteLine(json);
             }
@@ -73,7 +73,7 @@ namespace Server
             {
                 foreach (dynamic user in userData.Children())
                 {
-                    returnList.Add(new LoginCredentials((string)user.place, (string)user.username, (string)user.password));
+                    await returnList.Add(new LoginCredentials((string)user.place, (string)user.username, (string)user.password));
                 }
             }
 
@@ -116,7 +116,7 @@ namespace Server
                         dynLogin
                     }
                 };
-                userArray.Add(JObject.Parse(JsonConvert.SerializeObject(newUser)));
+                await userArray.Add(JObject.Parse(JsonConvert.SerializeObject(newUser)));
             }
 
             dynamic newJson = new
@@ -128,7 +128,9 @@ namespace Server
 
         public async Task<bool> Remove(string mUsername, string mPassword, LoginCredentials deleting)
         {
+            TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
             JArray userArray = JArray.Parse(JsonConvert.SerializeObject(json.data));
+            bool returnBool = false;
 
             foreach (var user in userArray.Children())
             {
@@ -146,12 +148,13 @@ namespace Server
                             login.Children<JProperty>().FirstOrDefault(x => x.Name == "password").Value.ToString() == deleting.Password
                             )
                         {
-                            return userData.Remove(login);
+                            returnBool = userData.Remove(login);
+                            tcs.SetResult(returnBool);
                         }
                     }
                 }
             }
-            return false;
+            return await tcs.Task;
         }
     }
 }

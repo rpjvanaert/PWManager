@@ -133,9 +133,10 @@ namespace Server
                     case DataParser.DELETE:
                         if (VerifyMessage(payloadbytes))
                         {
-                            LoginCredentials deleting;
+                            
                             string username; string password;
                             DataParser.GetUsernamePassword(payloadbytes, out username, out password);
+                            LoginCredentials deleting = DataParser.GetDeletion(payloadbytes);
                             if (await saveData.Remove(username, password, deleting))
                             {
                                 await saveData.WriteDataJSON();
@@ -180,6 +181,7 @@ namespace Server
 
         private bool VerifyLogin(string username, string password)
         {
+            //todo actual login
             return username == password;
         }
 

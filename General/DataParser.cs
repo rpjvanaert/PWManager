@@ -58,6 +58,11 @@ namespace General
             }
         }
 
+        public static byte[] GetLoginMessage(string mUsername, string mPassword)
+        {
+            return GetJsonMessage(LOGIN, new { username = mUsername, password = mPassword });
+        }
+
         private static byte[] GetMessage(byte[] payload, byte messageId)
         {
             byte[] res = new byte[payload.Length + 5];
@@ -114,9 +119,30 @@ namespace General
             return GetJsonMessage(DATA_RESPONSE, data);
         }
 
+        public static byte[] GetDeleteMessage(string mUsername, string mPassword, LoginCredentials deleting)
+        {
+            dynamic delete = new
+            {
+                username = mUsername,
+                password = mPassword,
+                data = new
+                {
+                    place = deleting.Place,
+                    username = deleting.Username,
+                    password = deleting.Password
+                }
+            };
+            return GetJsonMessage(DELETE, delete);
+        }
+
         public static byte[] GetDeleteResponse(string mStatus)
         {
             return GetJsonMessage(DELETE_RESPONSE, new { status = mStatus });
+        }
+
+        public static byte[] GetDataMessage(string mUsername, string mPassword)
+        {
+            return GetJsonMessage(DATA, new { username = mUsername, password = mPassword });
         }
 
         public static List<LoginCredentials> GetData(byte[] payload)
@@ -138,6 +164,21 @@ namespace General
             return logins;
         }
 
+        public static byte[] GetAddMessage(string mUsername, string mPassword, LoginCredentials adding)
+        {
+            return GetJsonMessage(ADD, new
+            {
+                username = mUsername,
+                password = mPassword,
+                data = new
+                {
+                    place = adding.Place,
+                    username = adding.Username,
+                    password = adding.Password
+                }
+            });
+        }
+
         public static bool GetAddition(byte[] jsonbytes, out LoginCredentials login)
         {
             dynamic json = JsonConvert.DeserializeObject(Encoding.ASCII.GetString(jsonbytes));
@@ -154,6 +195,17 @@ namespace General
             }
         }
 
-
+        public static LoginCredentials GetDeletion(byte[] payloadbytes)
+        {
+            dynamic json = JsonConvert.DeserializeObject(Encoding.ASCII.GetString(payloadbytes));
+            try
+            {
+                return new LoginCredentials(json.data.data.place, json.data.data.username, json.data.data.password);
+            }
+            catch
+            {
+                return new LoginCredentials(null, null, null);
+            }
+        }
     }
 }

@@ -21,7 +21,7 @@ namespace Server
         }
     }
 
-    class Client
+    class Server
     {
         private TcpClient client;
         private NetworkStream stream;
@@ -30,7 +30,7 @@ namespace Server
         private int totalBufferReceived = 0;
         private SaveData saveData;
 
-        public Client(TcpClient tcpClient)
+        public Server(TcpClient tcpClient)
         {
             this.client = tcpClient;
             this.stream = this.client.GetStream();
@@ -74,7 +74,7 @@ namespace Server
             this.stream.EndWrite(ar);
         }
 
-        private void HandleData(byte[] message)
+        private async void HandleData(byte[] message)
         {
             
             byte[] payloadbytes = new byte[BitConverter.ToInt32(message, 0) - 5];
@@ -105,7 +105,7 @@ namespace Server
                         {
                             string username; string password;
                             DataParser.GetUsernamePassword(payloadbytes, out username, out password);
-                            List<LoginCredentials> logins = saveData.GetLoginsUser(username, password);
+                            List<LoginCredentials> logins = await saveData.GetLoginsUser(username, password);
                             SendMessage(DataParser.GetDataResponse("OK", logins));
                         }
                         else
@@ -122,8 +122,8 @@ namespace Server
                             SendMessage(DataParser.GetAddResponse("OK"));
                             string username; string password;
                             DataParser.GetUsernamePassword(payloadbytes, out username, out password);
-                            saveData.Add(username, password, adding);
-                            saveData.WriteDataJSON();
+                            await saveData.Add(username, password, adding);
+                            await saveData.WriteDataJSON();
                         }
                         else
                         {
@@ -136,9 +136,9 @@ namespace Server
                             LoginCredentials deleting;
                             string username; string password;
                             DataParser.GetUsernamePassword(payloadbytes, out username, out password);
-                            if (saveData.Remove(username, password, deleting))
+                            if (await saveData.Remove(username, password, deleting))
                             {
-                                saveData.WriteDataJSON();
+                                await saveData.WriteDataJSON();
                                 SendMessage(DataParser.GetDeleteResponse("OK"));
                             } 
                             else

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Server
 {
@@ -44,7 +45,7 @@ namespace Server
             }
         }
 
-        public void WriteDataJSON()
+        public async Task WriteDataJSON()
         {
             using (StreamWriter sw = File.AppendText(this.path + jsonFilename))
             {
@@ -52,7 +53,7 @@ namespace Server
             }
         }
 
-        public List<LoginCredentials> GetLoginsUser(string mUsername, string mPassword)
+        public async Task<List<LoginCredentials>> GetLoginsUser(string mUsername, string mPassword)
         {
             JArray userArray = JArray.Parse(JsonConvert.SerializeObject(json.data));
             bool foundUser = false;
@@ -79,7 +80,7 @@ namespace Server
             return returnList;
         }
 
-        public void Add(string mUsername, string mPassword, LoginCredentials login)
+        public async Task Add(string mUsername, string mPassword, LoginCredentials login)
         {
             dynamic dynLogin = new
             {
@@ -125,7 +126,7 @@ namespace Server
             json = newJson;
         }
 
-        public bool Remove(string mUsername, string mPassword, LoginCredentials deleting)
+        public async Task<bool> Remove(string mUsername, string mPassword, LoginCredentials deleting)
         {
             JArray userArray = JArray.Parse(JsonConvert.SerializeObject(json.data));
 

@@ -10,12 +10,12 @@ namespace Server
     class Communication
     {
         private TcpListener listener;
-        private List<Client> clients;
+        private List<Server> clients;
 
         public Communication(TcpListener listener)
         {
             this.listener = listener;
-            this.clients = new List<Client>();
+            this.clients = new List<Server>();
         }
 
         public void Start()
@@ -31,11 +31,11 @@ namespace Server
         {
             var tcpClient = listener.EndAcceptTcpClient(ar);
             Console.WriteLine($"Client connected from {tcpClient.Client.RemoteEndPoint}");
-            clients.Add(new Client(tcpClient));
+            clients.Add(new Server(tcpClient));
             listener.BeginAcceptTcpClient(new AsyncCallback(OnConnect), null);
         }
 
-        internal void Disconnect(Client client)
+        internal void Disconnect(Server client)
         {
             clients.Remove(client);
         }

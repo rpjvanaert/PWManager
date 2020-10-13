@@ -134,7 +134,7 @@ namespace Server
             {
 
                 var userProp = user.Children<JProperty>();
-                if (userProp.FirstOrDefault(x => x.Name == "username").Value.ToString() == mUsername && userProp.FirstOrDefault(x => x.Name == "password").Value.ToString() == mPassword && !foundUser)
+                if (userProp.FirstOrDefault(x => x.Name == "username").Value.ToString() == mUsername && userProp.FirstOrDefault(x => x.Name == "password").Value.ToString() == mPassword)
                 {
                     JArray userData = (JArray)user.Children<JProperty>().FirstOrDefault(x => x.Name == "data").Value;
 

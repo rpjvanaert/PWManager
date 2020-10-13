@@ -14,7 +14,7 @@ namespace Server
     {
         static void Main(string[] args)
         {
-            Communication communication = new Communication(new TcpListener(IPAddress.Any, 102020));
+            Communication communication = new Communication(new TcpListener(IPAddress.Any, 1310));
             communication.Start();
 
             while (true) { }

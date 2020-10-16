@@ -18,11 +18,24 @@ namespace WPF_PWM
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class LoginWindow : Window
     {
-        public MainWindow()
+        public LoginWindow()
         {
             InitializeComponent();
+        }
+
+        private void CheckAccount(object sender, RoutedEventArgs e)
+        {
+            //TODO async check
+            if (passwordTB.Password == usernameTB.Text)
+            {
+                statusText.Content = "Yes";
+            } 
+            else
+            {
+                statusText.Content = "Nope";
+            }
         }
     }
 }

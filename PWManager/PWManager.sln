@@ -13,6 +13,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "General", "..\General\General.csproj", "{625B786A-B85C-4EDB-9CC9-E6C9FF126E1B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF_PWM", "..\WPF_PWM\WPF_PWM.csproj", "{82EDC10E-2D48-4F59-8338-6C719503EEB1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{625B786A-B85C-4EDB-9CC9-E6C9FF126E1B} = {625B786A-B85C-4EDB-9CC9-E6C9FF126E1B}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

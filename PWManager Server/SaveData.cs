@@ -55,7 +55,7 @@ namespace Server
 
         public async Task<List<LoginCredentials>> GetLoginsUser(string mUsername, string mPassword)
         {
-            JArray userArray = JArray.Parse(JsonConvert.SerializeObject(json.data));
+            JArray userArray = await JArray.Parse(JsonConvert.SerializeObject(json.data));
             bool foundUser = false;
             JArray userData = new JArray();
 
@@ -73,7 +73,7 @@ namespace Server
             {
                 foreach (dynamic user in userData.Children())
                 {
-                    await returnList.Add(new LoginCredentials((string)user.place, (string)user.username, (string)user.password));
+                    returnList.Add(new LoginCredentials((string)user.place, (string)user.username, (string)user.password));
                 }
             }
 

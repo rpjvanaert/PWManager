@@ -85,6 +85,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="XAML Files\DataWindow.xaml.cs">
+      <DependentUpon>DataWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="XAML Files\DataModifyPopup.xaml.cs">
+      <DependentUpon>DataModifyPopup.xaml</DependentUpon>
+    </Compile>
     <Page Include="XAML Files\LoginNewWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -102,6 +108,14 @@
       <DependentUpon>LoginWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="XAML Files\DataWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XAML Files\DataModifyPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

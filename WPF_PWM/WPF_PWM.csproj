@@ -147,6 +147,9 @@
   <ItemGroup>
     <Resource Include="pwmLogo2.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="KeyBG.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

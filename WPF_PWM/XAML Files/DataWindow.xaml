@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_PWM.XAML_Files"
         mc:Ignorable="d"
-        Title="Password Data" Height="450" Width="800">
+        Title="Password Data" Height="683" Width="512">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -17,14 +17,14 @@
                 <RowDefinition Height="32"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*"/>
-                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <Label Content="User Placeholder" Grid.Row="0" Grid.Column="0" Name="labelUser"/>
-            <Button Content="Refresh" Grid.Row="0" Grid.Column="1" Name="buttonRefresh" Margin="0,4,0,4" Width="55"/>
+            <Button Content="Refresh" Grid.Row="0" Grid.Column="1" Name="buttonRefresh"  Margin="16,4,16,4" Width="55"/>
             <Button Content="Add" Grid.Row="0" Grid.Column="2" Name="buttonAdd" Margin="16,4,16,4"/>
             <Button Content="Edit" Grid.Row="0" Grid.Column="3" Name="buttonEdit" Margin="16,4,16,4"/>
             <Button Content="Delete" Grid.Row="0" Grid.Column="5" Name="buttonDelete" Margin="16,4,16,4"/>
@@ -32,10 +32,10 @@
 
         <ListView Name="DataList" Grid.Row="1" Grid.Column="0">
             <ListView.View>
-                <GridView x:Name="=gridList">
-                    <GridViewColumn Header="Place" Width="200"/>
-                    <GridViewColumn Header="Username" Width="300"/>
-                    <GridViewColumn Header="Password" Width="300"/>
+                <GridView x:Name="gridList">
+                    <GridViewColumn Header="Place" Width="128"/>
+                    <GridViewColumn Header="Username" Width="192"/>
+                    <GridViewColumn Header="Password" Width="192"/>
                 </GridView>
             </ListView.View>
             

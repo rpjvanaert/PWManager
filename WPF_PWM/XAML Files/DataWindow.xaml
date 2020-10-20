@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_PWM.XAML_Files"
         mc:Ignorable="d"
-        Title="Password Data" Height="683" Width="512">
+        Title="Password Data" MinHeight="683" MinWidth="512" MaxWidth="512" Height="683" Width="512">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -33,9 +33,9 @@
         <ListView Name="DataList" Grid.Row="1" Grid.Column="0">
             <ListView.View>
                 <GridView x:Name="gridList">
-                    <GridViewColumn Header="Place" Width="128"/>
-                    <GridViewColumn Header="Username" Width="192"/>
-                    <GridViewColumn Header="Password" Width="192"/>
+                    <GridViewColumn Header="Place" Width="Auto" DisplayMemberBinding="{Binding Place}"/>
+                    <GridViewColumn Header="Username" Width="Auto" DisplayMemberBinding="{Binding Username}"/>
+                    <GridViewColumn Header="Password" Width="Auto" DisplayMemberBinding="{Binding Password}"/>
                 </GridView>
             </ListView.View>
             

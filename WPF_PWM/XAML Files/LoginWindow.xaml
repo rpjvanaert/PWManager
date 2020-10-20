@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_PWM.XAML_Files"
         mc:Ignorable="d"
-        Title="PWManager" Height="683" Width="512">
+        Title="PWManager" MinHeight="683" MinWidth="512" Height="683" Width="512">
     <Grid Margin="0">
         <Grid.Background>
             <ImageBrush ImageSource="\KeyBG.jpg" Stretch="UniformToFill"/>

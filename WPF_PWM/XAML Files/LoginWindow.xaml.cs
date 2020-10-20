@@ -28,7 +28,10 @@ namespace WPF_PWM.XAML_Files
         {
             string username = usernameTB.Text.ToString();
             string password = passwordTB.Password.ToString();
-
+            DataWindow datawindow = new DataWindow();
+            if (username == password) datawindow.Show();
+            this.Close();
+            
         }
     }
 }

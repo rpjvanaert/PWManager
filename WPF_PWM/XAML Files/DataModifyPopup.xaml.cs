@@ -1,4 +1,5 @@
-﻿using System;
+﻿using General;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,37 @@ namespace WPF_PWM.XAML_Files
     /// </summary>
     public partial class Popup : Window
     {
-        public Popup()
+        private List<LoginCredentials> updateList;
+        private bool editPopup;
+
+        public Popup(bool editPopup, List<LoginCredentials> items, string place, string username, string password)
         {
             InitializeComponent();
+            this.editPopup = editPopup;
+            this.updateList = items;
+            modPlace.Text = place;
+            modUsername.Text = username;
+            modPassword.Text = password;
+            if (this.editPopup)
+            {
+                Title = "Edit Login Credential";
+            }
+            else
+            {
+                Title = "Add Login Credential";
+            }
+        }
+
+        private void Confirm(object sender, RoutedEventArgs e)
+        {
+            if (this.editPopup)
+            {
+
+            }
+            else
+            {
+                updateList.Add(new LoginCredentials(modPlace.Text, modUsername.Text, modPassword.Text));
+            }
         }
     }
 }

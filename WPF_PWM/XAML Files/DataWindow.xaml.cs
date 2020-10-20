@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using General;
 
 namespace WPF_PWM.XAML_Files
 {
@@ -19,24 +20,36 @@ namespace WPF_PWM.XAML_Files
     /// </summary>
     public partial class DataWindow : Window
     {
+        private List<LoginCredentials> items;
         public DataWindow()
         {
             InitializeComponent();
+            items = new List<LoginCredentials>();
+            items.Add(new LoginCredentials("Facebook", "John", "Dough"));
+            items.Add(new LoginCredentials("Instagram", "zzzz", "Dough"));
+            items.Add(new LoginCredentials("Google", "Jane", "zzzz"));
+            DataList.ItemsSource = items;
         }
 
         private void Refresh(object sender, RoutedEventArgs e)
         {
-
+            DataList.ItemsSource = items;
         }
 
         private void Add(object sender, RoutedEventArgs e)
         {
-
+            Popup popup = new Popup(false, items, "", "", "");
+            popup.Show();
         }
 
         private void Edit(object sender, RoutedEventArgs e)
         {
-
+            dynamic dyn = DataList.SelectedItem;
+            if (!(DataList.SelectedItem == null))
+            {
+                Popup popup = new Popup(true, items, dyn.Place, dyn.Username, dyn.Password);
+                popup.Show();
+            }
         }
 
         private void Delete(object sender, RoutedEventArgs e)

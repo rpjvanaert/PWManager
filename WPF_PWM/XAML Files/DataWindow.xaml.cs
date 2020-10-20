@@ -17,11 +17,31 @@ namespace WPF_PWM.XAML_Files
     /// <summary>
     /// Interaction logic for Window1.xaml
     /// </summary>
-    public partial class Window1 : Window
+    public partial class DataWindow : Window
     {
-        public Window1()
+        public DataWindow()
         {
             InitializeComponent();
+        }
+
+        private void Refresh(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Add(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Edit(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Delete(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

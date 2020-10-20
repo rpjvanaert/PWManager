@@ -1,4 +1,4 @@
-﻿<Window x:Class="WPF_PWM.XAML_Files.Window1"
+﻿<Window x:Class="WPF_PWM.XAML_Files.DataWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -24,10 +24,10 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <Label Content="User Placeholder" Grid.Row="0" Grid.Column="0" Name="labelUser"/>
-            <Button Content="Refresh" Grid.Row="0" Grid.Column="1" Name="buttonRefresh"  Margin="16,4,16,4" Width="55"/>
-            <Button Content="Add" Grid.Row="0" Grid.Column="2" Name="buttonAdd" Margin="16,4,16,4"/>
-            <Button Content="Edit" Grid.Row="0" Grid.Column="3" Name="buttonEdit" Margin="16,4,16,4"/>
-            <Button Content="Delete" Grid.Row="0" Grid.Column="5" Name="buttonDelete" Margin="16,4,16,4"/>
+            <Button Content="Refresh" Grid.Row="0" Grid.Column="1" Name="buttonRefresh"  Margin="16,4,16,4" Width="55" Click="Refresh"/>
+            <Button Content="Add" Grid.Row="0" Grid.Column="2" Name="buttonAdd" Margin="16,4,16,4" Click="Add"/>
+            <Button Content="Edit" Grid.Row="0" Grid.Column="3" Name="buttonEdit" Margin="16,4,16,4" Click="Edit"/>
+            <Button Content="Delete" Grid.Row="0" Grid.Column="5" Name="buttonDelete" Margin="16,4,16,4" Click="Delete"/>
         </Grid>
 
         <ListView Name="DataList" Grid.Row="1" Grid.Column="0">

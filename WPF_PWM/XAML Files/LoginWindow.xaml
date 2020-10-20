@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_PWM.XAML_Files"
         mc:Ignorable="d"
-        Title="Window3" Height="683" Width="512">
+        Title="PWManager" Height="683" Width="512">
     <Grid Margin="0">
         <Grid.Background>
             <ImageBrush ImageSource="C:\Users\Ralf van Aert\Documents\VisualStudio\PWManager\WPF_PWM\KeyBG.jpg" Stretch="UniformToFill"/>
@@ -32,10 +32,10 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Row="1" Grid.Column="1" Content="Username" HorizontalAlignment="Right" Foreground="GhostWhite" FontWeight="Bold" Margin="0,0,10,0"/>
-            <TextBox x:Name="usernameTB" Grid.Row="1" Grid.Column="2"/>
+            <TextBox x:Name="usernameTB" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center"/>
             <Label Grid.Row="2" Grid.Column="1" Content="Password" HorizontalAlignment="Right" Foreground="GhostWhite" FontWeight="Bold" Margin="0,0,10,0"/>
-            <PasswordBox x:Name="passwordTB" Grid.Row="2" Grid.Column="2"/>
-            <Button Grid.Column="2" Grid.Row="3" Margin="2" Content="Log-in" Height="24" Width="48" Background="WhiteSmoke" HorizontalAlignment="Right"/>
+            <PasswordBox x:Name="passwordTB" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center"/>
+            <Button Grid.Column="2" Grid.Row="3" Margin="2" Content="Log-in" Height="24" Width="48" Background="WhiteSmoke" HorizontalAlignment="Right" Click="Login"/>
         </Grid>
     </Grid>
 </Window>

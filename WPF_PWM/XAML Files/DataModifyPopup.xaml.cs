@@ -17,9 +17,9 @@ namespace WPF_PWM.XAML_Files
     /// <summary>
     /// Interaction logic for Window2.xaml
     /// </summary>
-    public partial class Window2 : Window
+    public partial class Popup : Window
     {
-        public Window2()
+        public Popup()
         {
             InitializeComponent();
         }

@@ -23,5 +23,10 @@ namespace WPF_PWM.XAML_Files
         {
             InitializeComponent();
         }
+
+        private void Login(object sender, RoutedEventArgs e)
+        {
+            usernameTB.Text = "Works";
+        }
     }
 }

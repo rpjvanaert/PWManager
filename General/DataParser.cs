@@ -110,10 +110,27 @@ namespace General
 
         public static byte[] GetDataResponse(string mStatus, List<LoginCredentials> logins)
         {
+            JArray loginJArray;
+            string arrayString = "";
+            foreach (LoginCredentials each in logins)
+            {
+                dynamic loginToAdd = new
+                {
+                    place = each.Place,
+                    username = each.Username,
+                    password = each.Password
+                };
+                arrayString += JsonConvert.SerializeObject(loginToAdd) + ",";
+
+            }
+
+            arrayString.Remove(arrayString.Length - 1);
+            loginJArray = JArray.Parse(arrayString);
+
             dynamic data = new
             {
                 status = mStatus,
-                data = logins.ToArray()
+                data = loginJArray
             };
 
             return GetJsonMessage(DATA_RESPONSE, data);

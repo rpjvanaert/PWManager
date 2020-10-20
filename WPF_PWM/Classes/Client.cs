@@ -20,6 +20,8 @@ namespace WPF_PWM.Classes
 
         private bool connected;
 
+        private IHandler handler;
+
         private Client() : this("localhost", 1310)
         {
 
@@ -79,10 +81,40 @@ namespace WPF_PWM.Classes
                 {
                     switch (identifier)
                     {
-
+                        case DataParser.LOGIN_RESPONSE:
+                            //todo
+                            break;
+                        case DataParser.ADD_RESPONSE:
+                            //todo
+                            break;
+                        case DataParser.DELETE_RESPONSE:
+                            //todo
+                            break;
+                        case DataParser.DATA_RESPONSE:
+                            //todo
+                            break;
                     }
                 }
+                totalBufferReceived -= expectedMessageLength;
+                expectedMessageLength = BitConverter.ToInt32(totalBuffer, 0);
             }
+            this.stream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(OnRead), null);
+        }
+
+        public void SetHandler(IHandler handler)
+        {
+            this.handler = handler;
+        }
+
+        private void OnWrite(IAsyncResult ar)
+        {
+            this.stream.EndWrite(ar);
+        }
+
+        public void TryLogin(string username, string password)
+        {
+            byte[] message = DataParser.GetLoginMessage(username, password);
+            this.stream.BeginWrite(message, 0, message.Length, new AsyncCallback(OnWrite), null);
         }
     }
 }

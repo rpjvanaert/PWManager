@@ -15,6 +15,8 @@ namespace PWManager
     {
         public static void Main(string[] args)
         {
+            Client client = Client.Instance;
+            client.dosomething();
             //    List<LoginCredentials> logins = new List<LoginCredentials>();
             //    logins.Add(new LoginCredentials("pc", "admin", "admin"));
             //    logins.Add(new LoginCredentials("phone", "admin", "admin"));
@@ -46,11 +48,30 @@ namespace PWManager
             //    {
             //        Console.WriteLine("Can't");
 
-            dynamic jsonDyn = new
+            
+        }
+
+        class Client
+        {
+            private static readonly Client instance = new Client();
+
+            private Client() { }
+
+            public static Client Instance
             {
-                data = new dynamic[]
+                get 
                 {
-                    new 
+                    return instance;
+                }
+            }
+
+            public void dosomething() 
+            {
+                dynamic jsonDyn = new
+                {
+                    data = new dynamic[]
+                {
+                    new
                     {
                         username = "John",
                         password = "Dough",
@@ -64,7 +85,7 @@ namespace PWManager
                             }
                         }
                     },
-                    new 
+                    new
                     {
                         username = "Jip",
                         password = "Dip",
@@ -79,18 +100,20 @@ namespace PWManager
                         }
                     }
                 }
-            };
+                };
 
-            jsonDyn = Add(jsonDyn, "John", "Dough", new LoginCredentials("Instagram", "admin", "admin"));
-            jsonDyn = Add(jsonDyn, "Jip", "Dop", new LoginCredentials("Instagram", "admin", "admin"));
-            Console.WriteLine(JsonConvert.SerializeObject(jsonDyn));
-            List<LoginCredentials> sampleList = GetLoginsUser(jsonDyn, "John", "Dough");
-            foreach (LoginCredentials cred in sampleList)
-            {
-                Console.WriteLine(cred);
+                jsonDyn = Add(jsonDyn, "John", "Dough", new LoginCredentials("Instagram", "admin", "admin"));
+                jsonDyn = Add(jsonDyn, "Jip", "Dop", new LoginCredentials("Instagram", "admin", "admin"));
+                Console.WriteLine(JsonConvert.SerializeObject(jsonDyn));
+                List<LoginCredentials> sampleList = GetLoginsUser(jsonDyn, "John", "Dough");
+                foreach (LoginCredentials cred in sampleList)
+                {
+                    Console.WriteLine(cred);
+                }
             }
-        }
 
+
+        }
         public static List<LoginCredentials> GetLoginsUser(dynamic json, string mUsername, string mPassword)
         {
             JArray userArray = JArray.Parse(JsonConvert.SerializeObject(json.data));

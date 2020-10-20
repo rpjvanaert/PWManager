@@ -10,32 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WPF_PWM
+namespace WPF_PWM.XAML_Files
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Window3.xaml
     /// </summary>
     public partial class LoginWindow : Window
     {
         public LoginWindow()
         {
             InitializeComponent();
-        }
-
-        private void CheckAccount(object sender, RoutedEventArgs e)
-        {
-            //TODO async check
-            if (passwordTB.Password == usernameTB.Text)
-            {
-                statusText.Content = "Yes";
-            } 
-            else
-            {
-                statusText.Content = "Nope";
-            }
         }
     }
 }

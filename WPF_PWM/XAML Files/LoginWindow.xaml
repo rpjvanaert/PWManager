@@ -8,7 +8,7 @@
         Title="PWManager" Height="683" Width="512">
     <Grid Margin="0">
         <Grid.Background>
-            <ImageBrush ImageSource="C:\Users\Ralf van Aert\Documents\VisualStudio\PWManager\WPF_PWM\KeyBG.jpg" Stretch="UniformToFill"/>
+            <ImageBrush ImageSource="\KeyBG.jpg" Stretch="UniformToFill"/>
         </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -34,7 +34,7 @@
             <Label Grid.Row="1" Grid.Column="1" Content="Username" HorizontalAlignment="Right" Foreground="GhostWhite" FontWeight="Bold" Margin="0,0,10,0"/>
             <TextBox x:Name="usernameTB" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center"/>
             <Label Grid.Row="2" Grid.Column="1" Content="Password" HorizontalAlignment="Right" Foreground="GhostWhite" FontWeight="Bold" Margin="0,0,10,0"/>
-            <PasswordBox x:Name="passwordTB" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center"/>
+            <PasswordBox x:Name="passwordTB" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" PasswordChar="*"/>
             <Button Grid.Column="2" Grid.Row="3" Margin="2" Content="Log-in" Height="24" Width="48" Background="WhiteSmoke" HorizontalAlignment="Right" Click="Login"/>
         </Grid>
     </Grid>

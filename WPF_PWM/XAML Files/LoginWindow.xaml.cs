@@ -26,7 +26,9 @@ namespace WPF_PWM.XAML_Files
 
         private void Login(object sender, RoutedEventArgs e)
         {
-            usernameTB.Text = "Works";
+            string username = usernameTB.Text.ToString();
+            string password = passwordTB.Password.ToString();
+
         }
     }
 }

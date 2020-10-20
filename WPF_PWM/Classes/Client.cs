@@ -1,6 +1,8 @@
-﻿using System;
+﻿using General;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,16 +10,79 @@ namespace WPF_PWM.Classes
 {
     public class Client
     {
-        private Client()
+
+        private TcpClient client;
+        private NetworkStream stream;
+
+        private byte[] buffer = new byte[1024];
+        private byte[] totalBuffer = new byte[1024];
+        private int totalBufferReceived = 0;
+
+        private bool connected;
+
+        private Client() : this("localhost", 1310)
         {
 
         }
 
-        private static readonly Client client = new Client();
+        public Client(string adress, int port)
+        {
+            this.client = new TcpClient();
+            this.connected = false;
+            client.BeginConnect(adress, port, new AsyncCallback(OnConnect), null);
+        }
+
+        private static readonly Client self = new Client();
 
         public static Client GetInstance()
         {
-            return client;
+            return self;
+        }
+
+        private void OnConnect(IAsyncResult ar)
+        {
+            this.client.EndConnect(ar);
+            this.stream = this.client.GetStream();
+            this.stream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(OnRead), null);
+        }
+
+        private void OnRead(IAsyncResult ar)
+        {
+            if (ar == null || (!ar.IsCompleted) || (!this.stream.CanRead))
+            {
+                return;
+            }
+
+            int receivedBytes = this.stream.EndRead(ar);
+
+            if (totalBufferReceived + receivedBytes > 1024)
+            {
+                throw new OutOfMemoryException("Buffer too small");
+            }
+            Array.Copy(buffer, 0, totalBuffer, totalBufferReceived, receivedBytes);
+            totalBufferReceived += receivedBytes;
+
+            int expectedMessageLength = BitConverter.ToInt32(totalBuffer, 0);
+
+            while (totalBufferReceived >= expectedMessageLength)
+            {
+                byte[] messageBytes = new byte[expectedMessageLength];
+                Array.Copy(totalBuffer, 0, messageBytes, 0, expectedMessageLength);
+
+                byte[] payloadbytes = new byte[BitConverter.ToInt32(messageBytes, 0) - 5];
+
+                Array.Copy(messageBytes, 5, payloadbytes, 0, payloadbytes.Length);
+
+                string identifier;
+                bool isJson = DataParser.getJsonIdentifier(messageBytes, out identifier);
+                if (isJson)
+                {
+                    switch (identifier)
+                    {
+
+                    }
+                }
+            }
         }
     }
 }

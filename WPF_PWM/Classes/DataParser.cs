@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography.X509Certificates;
@@ -112,7 +113,7 @@ namespace General
         {
             JArray loginJArray;
             string arrayString = "";
-            foreach (LoginCredentials each in logins)
+            foreach(LoginCredentials each in logins)
             {
                 dynamic loginToAdd = new
                 {
@@ -121,7 +122,7 @@ namespace General
                     password = each.Password
                 };
                 arrayString += JsonConvert.SerializeObject(loginToAdd) + ",";
-
+                
             }
 
             arrayString.Remove(arrayString.Length - 1);

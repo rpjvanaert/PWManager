@@ -13,13 +13,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using General;
+using WPF_PWM.Classes;
 
 namespace WPF_PWM.XAML_Files
 {
     /// <summary>
     /// Interaction logic for Window1.xaml
     /// </summary>
-    public partial class DataWindow : Window
+    public partial class DataWindow : Window, IHandler
     {
         //private List<LoginCredentials> items;
         private ObservableCollection<LoginCredentials> items = new ObservableCollection<LoginCredentials>();
@@ -61,6 +62,21 @@ namespace WPF_PWM.XAML_Files
                 items.Remove((dynamic)DataList.SelectedItem);
             }
             
+        }
+
+        public void giveData(List<LoginCredentials> logins)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Login(bool status)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void stop()
+        {
+            throw new NotImplementedException();
         }
     }
 }

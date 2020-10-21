@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -151,6 +150,12 @@ namespace General
                 }
             };
             return GetJsonMessage(DELETE, delete);
+        }
+
+        public static string GetStatusResponse(byte[] payload)
+        {
+            dynamic json = JsonConvert.DeserializeObject(Encoding.ASCII.GetString(payload));
+            return json.data.status;
         }
 
         public static byte[] GetDeleteResponse(string mStatus)

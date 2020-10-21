@@ -20,7 +20,8 @@ namespace WPF_PWM.Classes
 
         private bool connected;
 
-        private IHandler handler;
+        private IDataWindow dataWindow;
+        private ILoginWindow loginWindow;
 
         private Client() : this("localhost", 1310)
         {
@@ -82,16 +83,49 @@ namespace WPF_PWM.Classes
                     switch (identifier)
                     {
                         case DataParser.LOGIN_RESPONSE:
-                            //todo
+                            if(DataParser.GetStatusResponse(payloadbytes) == "OK")
+                            {
+                                this.loginWindow.Message("Log-in succesful!");
+                                this.loginWindow.Login(true);
+                            }
+                            else
+                            {
+                                this.loginWindow.Message("Log-in unsuccesful...");
+                                this.loginWindow.Login(false);
+                            }
                             break;
                         case DataParser.ADD_RESPONSE:
-                            //todo
+                            if (DataParser.GetStatusResponse(payloadbytes) == "OK")
+                            {
+                                this.dataWindow.Message("Add succesful!");
+                            }
+                            else
+                            {
+                                this.dataWindow.Message("Add unsuccesful...");
+                            }
+                            
                             break;
+
                         case DataParser.DELETE_RESPONSE:
-                            //todo
+                            if (DataParser.GetStatusResponse(payloadbytes) == "OK")
+                            {
+                                this.dataWindow.Message("Delete succesful!");
+                            }
+                            else
+                            {
+                                this.dataWindow.Message("Delete unsuccesful...");
+                            }
                             break;
+
                         case DataParser.DATA_RESPONSE:
-                            //todo
+                            if (DataParser.GetStatusResponse(payloadbytes) == "OK")
+                            {
+                                this.dataWindow.Message("Refresh succesful!");
+                            }
+                            else
+                            {
+                                this.dataWindow.Message("Refresh unsuccesful...");
+                            }
                             break;
                     }
                 }
@@ -101,9 +135,14 @@ namespace WPF_PWM.Classes
             this.stream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(OnRead), null);
         }
 
-        public void SetHandler(IHandler handler)
+        public void SetDataWindow(IDataWindow dataWindow)
         {
-            this.handler = handler;
+            this.dataWindow = dataWindow;
+        }
+
+        public void SetLoginWindow(ILoginWindow loginWindow)
+        {
+            this.loginWindow = loginWindow;
         }
 
         private void OnWrite(IAsyncResult ar)

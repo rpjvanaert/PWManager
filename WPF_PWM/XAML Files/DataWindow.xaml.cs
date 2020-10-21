@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,12 +21,12 @@ namespace WPF_PWM.XAML_Files
     /// </summary>
     public partial class DataWindow : Window
     {
-        private List<LoginCredentials> items;
+        //private List<LoginCredentials> items;
+        private ObservableCollection<LoginCredentials> items = new ObservableCollection<LoginCredentials>();
         public DataWindow()
         {
             InitializeComponent();
-            items = new List<LoginCredentials>();
-            items.Add(new LoginCredentials("Facebook", "John", "Dough"));
+            items.Add(new LoginCredentials("Facebookisawaytoolongappname", "John", "Dough"));
             items.Add(new LoginCredentials("Instagram", "zzzz", "Dough"));
             items.Add(new LoginCredentials("Google", "Jane", "zzzz"));
             DataList.ItemsSource = items;
@@ -45,6 +46,7 @@ namespace WPF_PWM.XAML_Files
         private void Edit(object sender, RoutedEventArgs e)
         {
             dynamic dyn = DataList.SelectedItem;
+                   
             if (!(DataList.SelectedItem == null))
             {
                 Popup popup = new Popup(true, items, dyn.Place, dyn.Username, dyn.Password);
@@ -54,7 +56,11 @@ namespace WPF_PWM.XAML_Files
 
         private void Delete(object sender, RoutedEventArgs e)
         {
-
+            if(!(DataList.SelectedItem == null))
+            {
+                items.Remove((dynamic)DataList.SelectedItem);
+            }
+            
         }
     }
 }

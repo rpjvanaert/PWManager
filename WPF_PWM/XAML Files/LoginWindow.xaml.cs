@@ -22,6 +22,7 @@ namespace WPF_PWM.XAML_Files
         public LoginWindow()
         {
             InitializeComponent();
+         
         }
 
         private void Login(object sender, RoutedEventArgs e)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.Serialization;
 using System.Text;
 
@@ -7,7 +8,7 @@ namespace General
 {
     
     [Serializable]
-    public struct LoginCredentials : ISerializable
+    public class LoginCredentials : ISerializable, INotifyPropertyChanged
     {
 
         
@@ -15,6 +16,9 @@ namespace General
         private string place;
         private string username;
         private string password;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public LoginCredentials(string place, string username, string password)
         {
             this.place = place;
@@ -25,16 +29,20 @@ namespace General
         public string Place
         {
             get { return this.place; }
+            set { this.place = value; }
+
         }
 
         public string Username
         {
             get { return this.username; }
+            set { this.username = value; }
         }
 
         public string Password
         {
             get { return this.password; }
+            set { this.password = value; }
         }
 
         public override string ToString()
@@ -55,6 +63,12 @@ namespace General
             info.AddValue("place", this.place, typeof(string));
             info.AddValue("username", this.username, typeof(string));
             info.AddValue("password", this.password, typeof(string));
+        }
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

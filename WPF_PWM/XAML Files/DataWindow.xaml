@@ -33,13 +33,15 @@
         <ListView Name="DataList" Grid.Row="1" Grid.Column="0">
             <ListView.View>
                 <GridView x:Name="gridList">
-                    <GridViewColumn Header="Place" Width="Auto" DisplayMemberBinding="{Binding Place}"/>
-                    <GridViewColumn Header="Username" Width="Auto" DisplayMemberBinding="{Binding Username}"/>
-                    <GridViewColumn Header="Password" Width="Auto" DisplayMemberBinding="{Binding Password}"/>
+                    <GridViewColumn Header="Place" DisplayMemberBinding="{Binding Place}" Width="Auto"/>
+                    <GridViewColumn Header="Username" DisplayMemberBinding="{Binding Username}" Width="Auto"/>
+                    <GridViewColumn Header="Password" DisplayMemberBinding="{Binding Password}" Width="Auto"/>
                 </GridView>
             </ListView.View>
             
         </ListView>
-        
     </Grid>
+    
+        
+    
 </Window>

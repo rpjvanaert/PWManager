@@ -20,7 +20,7 @@ namespace WPF_PWM.XAML_Files
     /// <summary>
     /// Interaction logic for Window1.xaml
     /// </summary>
-    public partial class DataWindow : Window, IHandler
+    public partial class DataWindow : Window, IDataWindow
     {
         //private List<LoginCredentials> items;
         private ObservableCollection<LoginCredentials> items = new ObservableCollection<LoginCredentials>();
@@ -64,19 +64,19 @@ namespace WPF_PWM.XAML_Files
             
         }
 
-        public void giveData(List<LoginCredentials> logins)
+        public void GiveData(List<LoginCredentials> logins)
         {
             throw new NotImplementedException();
         }
 
-        public void Login(bool status)
+        public void Stop()
         {
-            throw new NotImplementedException();
+            this.Close();
         }
 
-        public void stop()
+        public void Message(string message)
         {
-            throw new NotImplementedException();
+            MessageBox.Show(message, "PWManager");
         }
     }
 }

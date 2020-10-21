@@ -103,7 +103,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Classes\IHandler.cs" />
+    <Compile Include="Classes\IDataWindow.cs" />
     <Compile Include="Classes\Client.cs" />
     <Compile Include="Classes\LoginCredential.cs" />
     <Compile Include="Classes\DataParser.cs" />

@@ -13,6 +13,8 @@ namespace WPF_PWM.Classes
 
         void GiveData(List<LoginCredentials> logins);
 
+        void DeleteData(LoginCredentials login);
+
         void Stop();
     }
 

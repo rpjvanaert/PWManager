@@ -18,8 +18,6 @@ namespace WPF_PWM.Classes
         private byte[] totalBuffer = new byte[1024];
         private int totalBufferReceived = 0;
 
-        private bool connected;
-
         private IDataWindow dataWindow;
         private ILoginWindow loginWindow;
 
@@ -31,7 +29,6 @@ namespace WPF_PWM.Classes
         public Client(string adress, int port)
         {
             this.client = new TcpClient();
-            this.connected = false;
             client.BeginConnect(adress, port, new AsyncCallback(OnConnect), null);
         }
 
@@ -120,6 +117,7 @@ namespace WPF_PWM.Classes
                         case DataParser.DATA_RESPONSE:
                             if (DataParser.GetStatusResponse(payloadbytes) == "OK")
                             {
+                                this.dataWindow.GiveData(DataParser.GetData(payloadbytes));
                                 this.dataWindow.Message("Refresh succesful!");
                             }
                             else
@@ -153,6 +151,12 @@ namespace WPF_PWM.Classes
         public void TryLogin(string username, string password)
         {
             byte[] message = DataParser.GetLoginMessage(username, password);
+            this.stream.BeginWrite(message, 0, message.Length, new AsyncCallback(OnWrite), null);
+        }
+
+        public void RequestRefresh(string username, string password)
+        {
+            byte[] message = DataParser.GetDataMessage(username, password);
             this.stream.BeginWrite(message, 0, message.Length, new AsyncCallback(OnWrite), null);
         }
     }

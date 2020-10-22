@@ -23,7 +23,7 @@ namespace WPF_PWM.XAML_Files
         public LoginWindow()
         {
             InitializeComponent();
-         
+            Client.GetInstance();
         }
 
         public void Login(bool status)
@@ -46,9 +46,7 @@ namespace WPF_PWM.XAML_Files
             string username = usernameTB.Text.ToString();
             string password = passwordTB.Password.ToString();
             DataWindow datawindow = new DataWindow();
-            if (username == password) datawindow.Show();
-            this.Close();
-            
+            Client.GetInstance().TryLogin(username, password);
         }
     }
 }

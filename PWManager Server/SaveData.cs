@@ -32,20 +32,27 @@ namespace Server
             }
             else
             {
-                string file = "";
-                using (StreamReader sr = new StreamReader(this.path + jsonFilename))
+                try
                 {
-                    string line;
-                    while ((line = sr.ReadLine()) != null)
+                    string file = "";
+                    using (StreamReader sr = new StreamReader(this.path + jsonFilename))
                     {
-                        if (line.Contains("="))
+                        string line;
+                        while ((line = sr.ReadLine()) != null)
                         {
-                            line = line.Replace("=", ":");
+                            if (line.Contains("="))
+                            {
+                                line = line.Replace("=", ":");
+                            }
+                            file += line;
                         }
-                        file += line;
+                        json = JsonConvert.DeserializeObject(file);
+                        Console.WriteLine("JSON: " + json);
                     }
-                    json = JsonConvert.DeserializeObject(file);
-                    Console.WriteLine("JSON: " + json);
+                }
+                catch
+                {
+                    
                 }
             }
         }

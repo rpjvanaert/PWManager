@@ -48,7 +48,7 @@ namespace WPF_PWM.XAML_Files
 
         private void Add(object sender, RoutedEventArgs e)
         {
-            Popup popup = new Popup(false, items, "", "", "");
+            Popup popup = new Popup(false, items, new LoginCredentials("", "", ""), this.username, this.password);
             popup.Show();
         }
 

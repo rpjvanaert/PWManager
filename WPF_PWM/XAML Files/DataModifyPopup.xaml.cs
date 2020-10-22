@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WPF_PWM.Classes;
 
 namespace WPF_PWM.XAML_Files
 {
@@ -23,21 +24,29 @@ namespace WPF_PWM.XAML_Files
     {
         private ObservableCollection<LoginCredentials> updateList;
         private bool editPopup;
-        private string place;
-        private string username;
-        private string password;
+        private string sPlace;
+        private string sUsername;
+        private string sPassword;
+        private string mUsername;
+        private string mPassword;
 
-        public Popup(bool editPopup, ObservableCollection<LoginCredentials> items, string place, string username, string password)
+        public Popup(bool editPopup, ObservableCollection<LoginCredentials> items, LoginCredentials login, string username, string password)
         {
             InitializeComponent();
             this.editPopup = editPopup;
             this.updateList = items;
-            modPlace.Text = place;
-            modUsername.Text = username;
-            modPassword.Text = password;
-            this.place = place;
-            this.username = username;
-            this.password = password;
+
+            modPlace.Text = login.Password;
+            modUsername.Text = login.Username;
+            modPassword.Text = login.Password;
+
+            this.sPlace = login.Place;
+            this.sUsername = login.Username;
+            this.sPassword = login.Password;
+
+            this.mUsername = username;
+            this.mPassword = password;
+
             if (this.editPopup)
             {
                 Title = "Edit Login Credential";
@@ -56,11 +65,12 @@ namespace WPF_PWM.XAML_Files
                 {
                     for (int i = 0; i < updateList.Count - 1; i++)
                     {
-                        if (updateList[i].Place == this.place && updateList[i].Username == this.username && updateList[i].Password == this.password)
+                        if (updateList[i].Place == this.sPlace && updateList[i].Username == this.sUsername && updateList[i].Password == this.sPassword)
                         {
                             updateList[i].Place = modPlace.Text;
                             updateList[i].Username = modUsername.Text;
                             updateList[i].Password = modPassword.Text;
+                            Client.GetInstance().AddRequest(this.mUsername, this.mPassword, new LoginCredentials(modPlace.Text, modUsername.Text, modPassword.Text));
                             this.Close();
                         }
                     }

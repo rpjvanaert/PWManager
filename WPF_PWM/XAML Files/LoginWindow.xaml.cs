@@ -20,6 +20,8 @@ namespace WPF_PWM.XAML_Files
     /// </summary>
     public partial class LoginWindow : Window, ILoginWindow
     {
+        string username;
+        string password;
         public LoginWindow()
         {
             InitializeComponent();
@@ -30,7 +32,7 @@ namespace WPF_PWM.XAML_Files
         {
             if (status)
             {
-                DataWindow datawindow = new DataWindow();
+                DataWindow datawindow = new DataWindow(this.username, this.password);
                 datawindow.Show();
                 this.Close();
             }
@@ -43,9 +45,8 @@ namespace WPF_PWM.XAML_Files
 
         private void Login(object sender, RoutedEventArgs e)
         {
-            string username = usernameTB.Text.ToString();
-            string password = passwordTB.Password.ToString();
-            DataWindow datawindow = new DataWindow();
+            this.username = usernameTB.Text.ToString();
+            this.password = passwordTB.Password.ToString();
             Client.GetInstance().TryLogin(username, password);
         }
     }

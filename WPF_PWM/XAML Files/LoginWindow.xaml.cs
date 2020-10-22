@@ -15,26 +15,22 @@ using WPF_PWM.Classes;
 
 namespace WPF_PWM.XAML_Files
 {
-    /// <summary>
-    /// Interaction logic for Window3.xaml
-    /// </summary>
     public partial class LoginWindow : Window, ILoginWindow
     {
-        string username;
-        string password;
+        private string username;
+        private string password;
         public LoginWindow()
         {
             InitializeComponent();
             Client.GetInstance();
+            Client.GetInstance().SetLoginWindow(this);
         }
 
         public void Login(bool status)
         {
             if (status)
             {
-                DataWindow datawindow = new DataWindow(this.username, this.password);
-                datawindow.Show();
-                this.Close();
+                Client.GetInstance().SetDataWindow(username, password);
             }
         }
 
@@ -47,6 +43,7 @@ namespace WPF_PWM.XAML_Files
         {
             this.username = usernameTB.Text.ToString();
             this.password = passwordTB.Password.ToString();
+            
             Client.GetInstance().TryLogin(username, password);
         }
     }

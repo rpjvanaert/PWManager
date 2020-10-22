@@ -9,6 +9,8 @@ namespace WPF_PWM.Classes
 {
     public interface IDataWindow
     {
+        void Show();
+
         void Message(string message);
 
         void GiveData(List<LoginCredentials> logins);
@@ -20,6 +22,10 @@ namespace WPF_PWM.Classes
 
     public interface ILoginWindow
     {
+        void Show();
+
+        void Close();
+
         void Login(bool status);
 
         void Message(string message); 

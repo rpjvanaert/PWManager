@@ -26,7 +26,7 @@ namespace WPF_PWM.XAML_Files
         private string password;
         private ObservableCollection<LoginCredentials> items = new ObservableCollection<LoginCredentials>();
 
-        public DataWindow(string username, string password)
+        public DataWindow()
         {
             InitializeComponent();
 
@@ -36,8 +36,11 @@ namespace WPF_PWM.XAML_Files
             items.Add(new LoginCredentials("Google", "Jane", "zzzz"));
             DataList.ItemsSource = items;
 
-            this.username = username;
-            this.password = password;
+            //this.username = username;
+            //this.password = password;
+
+            this.username = "";
+            this.password = "";
         }
 
         private void Refresh(object sender, RoutedEventArgs e)

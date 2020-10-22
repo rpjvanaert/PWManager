@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using WPF_PWM.XAML_Files;
 
 namespace WPF_PWM.Classes
 {
@@ -72,6 +73,7 @@ namespace WPF_PWM.Classes
                 byte[] payloadbytes = new byte[BitConverter.ToInt32(messageBytes, 0) - 5];
 
                 Array.Copy(messageBytes, 5, payloadbytes, 0, payloadbytes.Length);
+                System.Diagnostics.Debug.WriteLine(payloadbytes, "payload");
 
                 string identifier;
                 bool isJson = DataParser.getJsonIdentifier(messageBytes, out identifier);
@@ -84,11 +86,12 @@ namespace WPF_PWM.Classes
                             {
                                 this.loginWindow.Message("Log-in succesful!");
                                 this.loginWindow.Login(true);
+                                this.dataWindow.Show();
+                                this.loginWindow.Close();
                             }
                             else
                             {
                                 this.loginWindow.Message("Log-in unsuccesful...");
-                                this.loginWindow.Login(false);
                             }
                             break;
                         case DataParser.ADD_RESPONSE:
@@ -133,9 +136,10 @@ namespace WPF_PWM.Classes
             this.stream.BeginRead(this.buffer, 0, this.buffer.Length, new AsyncCallback(OnRead), null);
         }
 
-        public void SetDataWindow(IDataWindow dataWindow)
+        public void SetDataWindow(string username, string password)
         {
-            this.dataWindow = dataWindow;
+            //this.dataWindow = new DataWindow(username, password);
+            this.dataWindow = new DataWindow();
         }
 
         public void SetLoginWindow(ILoginWindow loginWindow)

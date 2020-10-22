@@ -165,5 +165,11 @@ namespace WPF_PWM.Classes
             byte[] message = DataParser.GetAddMessage(mUsername, mPassword, loginCredentials);
             this.stream.BeginWrite(message, 0, message.Length, new AsyncCallback(OnWrite), null);
         }
+
+        public void DeleteRequest(string username, string password, LoginCredentials deleteLogin)
+        {
+            byte[] message = DataParser.GetDeleteMessage(username, password, deleteLogin);
+            this.stream.BeginWrite(message, 0, message.Length, new AsyncCallback(OnWrite), null);
+        }
     }
 }

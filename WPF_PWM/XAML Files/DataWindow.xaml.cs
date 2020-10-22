@@ -65,9 +65,13 @@ namespace WPF_PWM.XAML_Files
 
         private void Delete(object sender, RoutedEventArgs e)
         {
-            if(!(DataList.SelectedItem == null))
+            dynamic dynLogin = DataList.SelectedItem;
+            if(!(dynLogin == null))
             {
-                items.Remove((dynamic)DataList.SelectedItem);
+                LoginCredentials deleteLogin = new LoginCredentials(dynLogin.Place, dynLogin.Username, dynLogin.Password);
+                this.items.Remove(deleteLogin);
+                Client.GetInstance().DeleteRequest(this.username, this.password, deleteLogin);
+                items.Remove(dynLogin);
             }
             
         }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using WPF_PWM.XAML_Files;
 
 namespace WPF_PWM.Classes
@@ -86,8 +87,16 @@ namespace WPF_PWM.Classes
                             {
                                 this.loginWindow.Message("Log-in succesful!");
                                 this.loginWindow.Login(true);
-                                this.dataWindow.Show();
-                                this.loginWindow.Close();
+                                Application.Current.Dispatcher.Invoke(new Action(()
+                                =>
+                                {
+                                    this.dataWindow.Show();
+                                }));
+                                Application.Current.Dispatcher.Invoke(new Action(()
+                                    =>
+                                    {
+                                        this.loginWindow.Close();
+                                    }));
                             }
                             else
                             {
@@ -97,11 +106,19 @@ namespace WPF_PWM.Classes
                         case DataParser.ADD_RESPONSE:
                             if (DataParser.GetStatusResponse(payloadbytes) == "OK")
                             {
-                                this.dataWindow.Message("Add succesful!");
+                                System.Windows.Application.Current.Dispatcher.Invoke(new Action(()
+                                =>
+                                {
+                                    this.dataWindow.Message("Add succesful!");
+                                }));
                             }
                             else
                             {
-                                this.dataWindow.Message("Add unsuccesful...");
+                                System.Windows.Application.Current.Dispatcher.Invoke(new Action(()
+                                =>
+                                {
+                                    this.dataWindow.Message("Add unsuccesful...");
+                                }));
                             }
                             
                             break;
@@ -109,23 +126,39 @@ namespace WPF_PWM.Classes
                         case DataParser.DELETE_RESPONSE:
                             if (DataParser.GetStatusResponse(payloadbytes) == "OK")
                             {
-                                this.dataWindow.Message("Delete succesful!");
+                                System.Windows.Application.Current.Dispatcher.Invoke(new Action(()
+                                =>
+                                {
+                                    this.dataWindow.Message("Delete succesful!");
+                                }));
                             }
                             else
                             {
-                                this.dataWindow.Message("Delete unsuccesful...");
+                                System.Windows.Application.Current.Dispatcher.Invoke(new Action(()
+                                =>
+                                {
+                                    this.dataWindow.Message("Delete unsuccesful...");
+                                }));
                             }
                             break;
 
                         case DataParser.DATA_RESPONSE:
                             if (DataParser.GetStatusResponse(payloadbytes) == "OK")
                             {
-                                this.dataWindow.GiveData(DataParser.GetData(payloadbytes));
-                                this.dataWindow.Message("Refresh succesful!");
+                                System.Windows.Application.Current.Dispatcher.Invoke(new Action(()
+                                =>
+                                {
+                                    this.dataWindow.GiveData(DataParser.GetData(payloadbytes));
+                                    this.dataWindow.Message("Refresh succesful!");
+                                }));
                             }
                             else
                             {
-                                this.dataWindow.Message("Refresh unsuccesful...");
+                                System.Windows.Application.Current.Dispatcher.Invoke(new Action(()
+                                =>
+                                {
+                                    this.dataWindow.Message("Refresh unsuccesful...");
+                                }));
                             }
                             break;
                     }
@@ -139,7 +172,11 @@ namespace WPF_PWM.Classes
         public void SetDataWindow(string username, string password)
         {
             //this.dataWindow = new DataWindow(username, password);
-            this.dataWindow = new DataWindow();
+            System.Windows.Application.Current.Dispatcher.Invoke(new Action(()
+                =>
+            {
+                this.dataWindow = new DataWindow(username, password);
+            }));
         }
 
         public void SetLoginWindow(ILoginWindow loginWindow)

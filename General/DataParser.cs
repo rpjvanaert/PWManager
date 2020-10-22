@@ -123,9 +123,7 @@ namespace General
                 arrayString += JsonConvert.SerializeObject(loginToAdd) + ",";
 
             }
-
-            arrayString.Remove(arrayString.Length - 1);
-            loginJArray = JArray.Parse(arrayString);
+            loginJArray = JArray.Parse("[" + arrayString + "]");
 
             dynamic data = new
             {
@@ -199,10 +197,9 @@ namespace General
         public static bool GetAddition(byte[] jsonbytes, out LoginCredentials login)
         {
             dynamic json = JsonConvert.DeserializeObject(Encoding.ASCII.GetString(jsonbytes));
-
             try
             {
-                login = new LoginCredentials(json.data.data.place, json.data.data.username, json.data.data.password);
+                login = new LoginCredentials((string)json.data.data.place, (string)json.data.data.username, (string)json.data.data.password);
                 return true;
             }
             catch
@@ -215,9 +212,10 @@ namespace General
         public static LoginCredentials GetDeletion(byte[] payloadbytes)
         {
             dynamic json = JsonConvert.DeserializeObject(Encoding.ASCII.GetString(payloadbytes));
+            Console.WriteLine("DELETION: " + json);
             try
             {
-                return new LoginCredentials(json.data.data.place, json.data.data.username, json.data.data.password);
+                return new LoginCredentials((string)json.data.data.place, (string)json.data.data.username, (string)json.data.data.password);
             }
             catch
             {

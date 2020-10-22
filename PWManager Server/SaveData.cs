@@ -38,31 +38,52 @@ namespace Server
                     string line;
                     while ((line = sr.ReadLine()) != null)
                     {
+                        if (line.Contains("="))
+                        {
+                            line = line.Replace("=", ":");
+                        }
                         file += line;
                     }
                     json = JsonConvert.DeserializeObject(file);
+                    Console.WriteLine("JSON: " + json);
                 }
             }
         }
 
         public async Task WriteDataJSON()
         {
+            File.WriteAllText(this.path + jsonFilename, string.Empty);
             await using (StreamWriter sw = File.AppendText(this.path + jsonFilename))
             {
                 sw.WriteLine(json);
             }
         }
 
-        public async Task<List<LoginCredentials>> GetLoginsUser(string mUsername, string mPassword)
+        public bool VerifyUser(string mUsername, string mPassword)
         {
-            JArray userArray = await JArray.Parse(JsonConvert.SerializeObject(json.data));
+            JArray userArray = JArray.Parse(JsonConvert.SerializeObject(json.data));
+
+            foreach(var user in userArray.Children())
+            {
+                var userProp = user.Children<JProperty>();
+                if (userProp.FirstOrDefault(x => x.Name == "username").Value.ToString() == mUsername && userProp.FirstOrDefault(x => x.Name == "password").Value.ToString() == mPassword)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public List<LoginCredentials> GetLoginsUser(string mUsername, string mPassword)
+        {
+            JArray userArray = JArray.Parse(JsonConvert.SerializeObject(json.data));
             bool foundUser = false;
             JArray userData = new JArray();
 
             foreach (var user in userArray.Children())
             {
                 var userProp = user.Children<JProperty>();
-                if (userProp.FirstOrDefault(x => x.Name == "username").Value.ToString() == mUsername && userProp.FirstOrDefault(x => x.Name == "password").Value.ToString() == mPassword && !foundUser)
+                if (userProp.FirstOrDefault(x => x.Name == "username").Value.ToString() == mUsername && userProp.FirstOrDefault(x => x.Name == "password").Value.ToString() == mPassword)
                 {
                     userData = (JArray)user.Children<JProperty>().FirstOrDefault(x => x.Name == "data").Value;
                     foundUser = true;
@@ -126,9 +147,8 @@ namespace Server
             json = newJson;
         }
 
-        public async Task<bool> Remove(string mUsername, string mPassword, LoginCredentials deleting)
+        public bool Remove(string mUsername, string mPassword, LoginCredentials deleting)
         {
-            TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
             JArray userArray = JArray.Parse(JsonConvert.SerializeObject(json.data));
             bool returnBool = false;
 
@@ -149,12 +169,19 @@ namespace Server
                             )
                         {
                             returnBool = userData.Remove(login);
-                            tcs.SetResult(returnBool);
+                            break;
                         }
                     }
                 }
             }
-            return await tcs.Task;
+
+            dynamic newJson = new
+            {
+                data = userArray
+            };
+            json = newJson;
+
+            return returnBool;
         }
     }
 }

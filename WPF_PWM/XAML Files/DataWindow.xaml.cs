@@ -26,21 +26,16 @@ namespace WPF_PWM.XAML_Files
         private string password;
         private ObservableCollection<LoginCredentials> items = new ObservableCollection<LoginCredentials>();
 
-        public DataWindow()
+        public DataWindow(string username, string password)
         {
             InitializeComponent();
 
             //ask data in after login
-            items.Add(new LoginCredentials("Facebookisawaytoolongappname", "John", "Dough"));
-            items.Add(new LoginCredentials("Instagram", "zzzz", "Dough"));
-            items.Add(new LoginCredentials("Google", "Jane", "zzzz"));
+            Client.GetInstance().RequestRefresh(username, password);
             DataList.ItemsSource = items;
 
-            //this.username = username;
-            //this.password = password;
-
-            this.username = "";
-            this.password = "";
+            this.username = username;
+            this.password = password;
         }
 
         private void Refresh(object sender, RoutedEventArgs e)
@@ -61,7 +56,7 @@ namespace WPF_PWM.XAML_Files
                    
             if (!(DataList.SelectedItem == null))
             {
-                Popup popup = new Popup(true, items, dyn.Place, dyn.Username, dyn.Password);
+                Popup popup = new Popup(true, items, new LoginCredentials(dyn.Place, dyn.Username, dyn.Password), username, password);
                 popup.Show();
             }
         }

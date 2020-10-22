@@ -24,9 +24,11 @@ namespace WPF_PWM.XAML_Files
     {
         private ObservableCollection<LoginCredentials> updateList;
         private bool editPopup;
+
         private string sPlace;
         private string sUsername;
         private string sPassword;
+
         private string mUsername;
         private string mPassword;
 
@@ -67,6 +69,7 @@ namespace WPF_PWM.XAML_Files
                     {
                         if (updateList[i].Place == this.sPlace && updateList[i].Username == this.sUsername && updateList[i].Password == this.sPassword)
                         {
+                            Client.GetInstance().DeleteRequest(this.mUsername, this.mPassword, new LoginCredentials(this.sPlace, this.sUsername, this.sPassword));
                             updateList[i].Place = modPlace.Text;
                             updateList[i].Username = modUsername.Text;
                             updateList[i].Password = modPassword.Text;
@@ -84,6 +87,7 @@ namespace WPF_PWM.XAML_Files
             {
                 if(modPlace.Text != "" && modUsername.Text != "" && modPassword.Text != "")
                 {
+                    Client.GetInstance().AddRequest(this.mUsername, this.mPassword, new LoginCredentials(modPlace.Text, modUsername.Text, modPassword.Text));
                     updateList.Add(new LoginCredentials(modPlace.Text, modUsername.Text, modPassword.Text));
                     this.Close();
                 }

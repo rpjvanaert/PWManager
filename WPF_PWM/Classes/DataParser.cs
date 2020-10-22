@@ -171,17 +171,13 @@ namespace General
         public static List<LoginCredentials> GetData(byte[] payload)
         {
             dynamic json = JsonConvert.DeserializeObject(Encoding.ASCII.GetString(payload));
-
             JArray userArray = JArray.Parse(JsonConvert.SerializeObject(json.data.data));
             List<LoginCredentials> logins = new List<LoginCredentials>();
 
-            foreach (var user in userArray.Children())
+            foreach (dynamic loginCred in userArray.Children())
             {
-                JArray userData = (JArray)user.Children<JProperty>().FirstOrDefault(x => x.Name == "data").Value;
-                foreach (dynamic login in userData)
-                {
-                    logins.Add(new LoginCredentials((string)login.place, (string)login.username, (string)login.password));
-                }
+
+                logins.Add(new LoginCredentials((string)loginCred.place, (string)loginCred.username, (string)loginCred.password));
             }
 
             return logins;

@@ -6,6 +6,7 @@ using System.Text;
 using General;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 
 namespace Server
 {
@@ -76,7 +77,7 @@ namespace Server
 
         private async void HandleData(byte[] message)
         {
-            
+            //Console.WriteLine("got\n\r" + Encoding.ASCII.GetString(message));
             byte[] payloadbytes = new byte[BitConverter.ToInt32(message, 0) - 5];
 
             Array.Copy(message, 5, payloadbytes, 0, payloadbytes.Length);
@@ -105,7 +106,7 @@ namespace Server
                         {
                             string username; string password;
                             DataParser.GetUsernamePassword(payloadbytes, out username, out password);
-                            List<LoginCredentials> logins = await saveData.GetLoginsUser(username, password);
+                            List<LoginCredentials> logins = saveData.GetLoginsUser(username, password);
                             SendMessage(DataParser.GetDataResponse("OK", logins));
                         }
                         else
@@ -137,7 +138,8 @@ namespace Server
                             string username; string password;
                             DataParser.GetUsernamePassword(payloadbytes, out username, out password);
                             LoginCredentials deleting = DataParser.GetDeletion(payloadbytes);
-                            if (await saveData.Remove(username, password, deleting))
+                            Thread.Sleep(100);
+                            if (saveData.Remove(username, password, deleting))
                             {
                                 await saveData.WriteDataJSON();
                                 SendMessage(DataParser.GetDeleteResponse("OK"));
@@ -182,7 +184,7 @@ namespace Server
         private bool VerifyLogin(string username, string password)
         {
             //todo actual login
-            return username == password;
+            return saveData.VerifyUser(username, password);
         }
 
         public static string ByteArrayToString(byte[] ba)
